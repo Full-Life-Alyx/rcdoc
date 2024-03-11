@@ -31,10 +31,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error + 'static>> {
         .with_target(false)
         .finish();
     tracing::subscriber::set_global_default(tracing_sub).unwrap();
-    dotenv::dotenv().ok();
 
     // Init database and migrations
-    const DATABASE_URL: &str = env!("PROD_DATABASE_URL", "PROD_DATABASE_URL must be passed in");
+    const DATABASE_URL: &str = dotenv!("DATABASE_URL");
     let pool = PgPool::connect(DATABASE_URL).await?;
     sqlx::migrate!("./migrations").run(&pool).await?;
 
