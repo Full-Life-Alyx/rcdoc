@@ -1,2 +1,3 @@
-/target
 /postgres
+# This is the rust project lol
+/api

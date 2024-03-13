@@ -7,10 +7,13 @@
 # You can add other services your application may depend on here, such as a
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
+version: '3'
+
 services:
+
   server:
     build:
-      context: .
+      context: ./api/
       target: final
     ports:
       - 80:80
@@ -23,8 +26,7 @@ services:
       - redis
       - postgres
     env_file:
-      - path: ./env/prod.properties
-        required: true
+      - ./env/prod.properties
 
   redis:
     image: "redis:alpine"
@@ -36,23 +38,25 @@ services:
 
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     volumes:  
-      - "./config/redis:/usr/local/etc/redis"
+      - "./config/redis:/usr/local/etc/redis:ro"
   
   postgres:
+    restart: always
     image: "postgres:alpine"
     healthcheck:
-      # test: ["CMD", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
-      test: ["CMD", "pg_isready"]
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       interval: 1s
       timeout: 2s
       retries: 10
 
     volumes:
-      - "./postgres:/var/lib/postgresql/data"
+      - "pg_data:/var/lib/postgresql/data"
     env_file:
-      - path: ./env/postgres.properties
-        required: true
+      - ./env/postgres.properties
     user: postgres
+
+volumes:
+  pg_data: {}
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
