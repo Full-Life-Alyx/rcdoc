@@ -1,0 +1,6 @@
+[submodule "back"]
+	path = back
+	url = https://github.com/Full-Life-Alyx/rcdoc-backend.git
+[submodule "front"]
+	path = front
+	url = https://github.com/Full-Life-Alyx/rcdoc-frontend.git
