@@ -38,7 +38,8 @@ services:
       - ./env/backend.properties
 
   redis:
-    image: "redis:alpine"
+    # This will change to valkey soon(tm)
+    image: "redis:7.2.4-alpine"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 1s
