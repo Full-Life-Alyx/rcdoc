@@ -5,5 +5,5 @@
 	path = front
 	url = https://github.com/Full-Life-Alyx/rcdoc-frontend.git
 [submodule "rcdoc-frontend"]
-	path = rcdoc-frontend
+	path = front
 	url = https://github.com/Full-Life-Alyx/rcdoc-frontend
